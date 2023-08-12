@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  api-internal-iot:
+    image: iot-server
+    container_name: iot-server
+    env_file:
+      - ./.env
+    environment:
+      PYTHONUNBUFFERED: 1
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        - SQLITE_PATH=${SQLITE_PATH}
+    ports:
+      - 5000:5000
+    volumes: 
+      - '.:/code'
+      - './.services/server/conf:/code/conf'
+      - './.volumes/db:/code/db'
+      - './.volumes/server/storage:/code/api/storage/local'
+      - './.volumes/server/credentials/server:/code/api/storage/credentials/server'
+      - './.volumes/server/credentials/clients:/code/api/storage/credentials/clients'
+

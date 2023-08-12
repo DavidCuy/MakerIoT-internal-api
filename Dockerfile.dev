@@ -1,0 +1,25 @@
+# set base image (host OS)
+FROM python:3.7-slim
+
+ARG SQLITE_PATH
+
+# set the working directory in the container
+WORKDIR /code
+
+ENV FLASK_APP api
+ENV FLASK_RUN_HOST 0.0.0.0
+ENV FLASK_ENV development
+
+ENV SQLITE_PATH $SQLITE_PATH
+
+# copy the dependencies file to the working directory
+COPY requirements.txt requirements.txt
+
+# install dependencies
+RUN pip install -r requirements.txt
+
+COPY . .
+
+RUN chmod u+x ./entrypoint.sh
+ENTRYPOINT ["./entrypoint.sh"]
+
