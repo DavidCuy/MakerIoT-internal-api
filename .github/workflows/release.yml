@@ -1,21 +1,23 @@
 name: Publish To DockerHub
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-    types: [ opened, synchronize, reopened ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: 'environment'
+        required: true
+        options:
+          - dev
+          - qa
+          - prod
 jobs:
   push_to_registry:
-    environment: dev
+    environment: "${{ github.event.inputs.environment }}"
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     env:
       DOCKER_USERNAME: "${{ secrets.DOCKER_USERNAME }}"
       DOCKER_PASS: "${{ secrets.DOCKER_PASSWORD }}"
-      ENV_NAME: "dev"
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
@@ -38,5 +40,5 @@ jobs:
           context: .
           file: ./Dockerfile.dev
           push: true
-          tags: ${{ vars.DOCKERHUB_SPACE }}/${{ vars.DOCKER_REPOSITORY }}:${{ env.ENV_NAME }}
+          tags: ${{ vars.DOCKERHUB_SPACE }}/${{ vars.DOCKER_REPOSITORY }}:${{ env.GITHUB_REF_NAME }}
           labels: ${{ steps.meta.outputs.labels }}
