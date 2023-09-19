@@ -4,6 +4,9 @@ services:
   api-internal-iot:
     image: iot-server
     container_name: iot-server
+    depends_on:
+      mongo-local:
+        condition: service_healthy
     env_file:
       - ./.env
     environment:
@@ -22,4 +25,30 @@ services:
       - './.volumes/server/storage:/code/api/storage/local'
       - './.volumes/server/credentials/server:/code/api/storage/credentials/server'
       - './.volumes/server/credentials/clients:/code/api/storage/credentials/clients'
+  mongo-local:
+    image: mongo:7.0.1
+    container_name: mongo-local
+    restart: always
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh mongo-local:27017/local --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 7
+      start_period: 50s
+    env_file:
+      - ./.services/mongo/.env
+    volumes: 
+      - './.volumes/mongo:/data/db'
+  
+  mongo-express:
+    image: mongo-express:1.0.0-alpha
+    container_name: mongo-express
+    depends_on:
+      mongo-local:
+        condition: service_healthy
+    restart: always
+    ports:
+      - 8081:8081
+    env_file:
+      - ./.services/mongo-express/.env
 
