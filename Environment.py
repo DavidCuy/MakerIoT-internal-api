@@ -32,6 +32,13 @@ SQLITE_PATH             = env("SQLITE_PATH", "app.db")
 DB_DRIVER               = env("DB_DRIVER", "sqlite")
 DB_CONNECTION_STRING    = f"sqlite:///{os.path.abspath(os.path.join(os.path.dirname(__file__), SQLITE_PATH))}"
 
+MONGODB_DRIVER          = env("MONGODB_DRIVER", "pymongo")
+MONGODB_USER            = env("MONGODB_USER", "root")
+MONGODB_PASS            = env("MONGODB_PASS", "example")
+MONGODB_DB              = env("MONGODB_DB", "local")
+MONGODB_HOST            = env("MONGODB_HOST", "mongo")
+MONGODB_URL             = f"mongodb://{MONGODB_USER}:{MONGODB_DB}@{MONGODB_HOST}:27017/{MONGODB_DB}"
+
 SERVER_CA_CERT = "ca.crt"
 SERVER_CA_KEY= "ca.key"
 SERVER_CSR = "server.csr"
