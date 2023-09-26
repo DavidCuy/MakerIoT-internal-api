@@ -1,15 +1,26 @@
 from __future__ import annotations
 import json
 from json.encoder import JSONEncoder
+import Environment as env
 from typing import Any, Dict, List, Type, cast
-from operator import and_, or_
-from sqlalchemy import Column, Integer, orm
-from sqlalchemy.orm.session import Session
-from sqlalchemy.orm.query import Query
 from typing import List
 from datetime import datetime
+from mongoengine import Document, connect
 from ....database.DBConnection import db, AlchemyEncoder
-from mongoengine import Document, StringField
+from ....config.database import config
+
+## Database connection string
+config_mongo = config[env.MONGODB_DRIVER]
+connect(
+    config_mongo['database'],
+    host=config_mongo['host'],
+    port=config_mongo['port'],
+    username=config_mongo['username'],
+    password=config_mongo['password'],
+    authentication_source='admin'
+)
+
+
 
 class BaseMongoModel(Document):
     """ Base model for a child classes implementations
