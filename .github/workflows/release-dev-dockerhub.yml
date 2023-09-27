@@ -40,3 +40,5 @@ jobs:
           push: true
           tags: ${{ vars.DOCKERHUB_SPACE }}/${{ vars.DOCKER_REPOSITORY }}:${{ env.ENV_NAME }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            SQLITE_PATH=.volumes/app.db
