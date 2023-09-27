@@ -67,7 +67,7 @@ class BaseMongoModel(Document):
         """
         query_dict = {}
         for filter in filters:
-            key = filter.keys()[0]
+            key = list(filter.keys())[0]
             query_dict.update({key: filter[key]})
         
         if first:
@@ -77,7 +77,7 @@ class BaseMongoModel(Document):
             init_element = (page - 1) * (per_page)
             end_element = init_element + per_page - 1
             return cls_, cls_.objects(__raw__=query_dict)[init_element:end_element]
-        return cls_, cls_.objects
+        return cls_, cls_.objects(__raw__=query_dict)
 
     @classmethod
     def all(cls_):
@@ -89,7 +89,7 @@ class BaseMongoModel(Document):
         Returns:
             List[Type[BaseModel]]: List of elements mapped from database table
         """
-        return cls_.filters([])
+        return cls_, cls_.objects
     
     @classmethod
     def get_paginated(cls_, page: int = 1, per_page: int = 10):
