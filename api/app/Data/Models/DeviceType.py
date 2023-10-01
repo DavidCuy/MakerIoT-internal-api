@@ -1,6 +1,6 @@
 from typing import Any, Dict, List
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Boolean
 from ...Core.Data.BaseModel import BaseModel
 
 class DeviceType(BaseModel):
@@ -15,6 +15,7 @@ class DeviceType(BaseModel):
     __tablename__ = 'DeviceTypes'
     id = Column("IdDeviceType", Integer, primary_key=True)
     name = Column("name", String, nullable=False)
+    enabled_config = Column("enabled_config", Boolean, default=False)
     
     devices = relationship("Device", back_populates="deviceType")
     
@@ -27,7 +28,7 @@ class DeviceType(BaseModel):
     @classmethod
     def display_members(cls_) -> List[str]:
         return [
-            "id", "name"
+            "id", "name", "enabled_config"
         ]
     
     @classmethod

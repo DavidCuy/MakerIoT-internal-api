@@ -1,6 +1,6 @@
 from typing import Any, Dict, List
 from datetime import datetime
-from mongoengine import IntField, DateTimeField, StringField, DictField
+from mongoengine import IntField, DateTimeField, StringField, DictField, BooleanField
 
 from ....Core.Data.BaseMongoModel import BaseMongoModel
 
@@ -11,5 +11,9 @@ class DeviceConfig(BaseMongoModel):
     input_json = DictField()
     output_json = DictField()
     output_topic = StringField(max_length=512)
+    save_output = BooleanField(default=False)
     created_at = DateTimeField(default=datetime.now)
     updated_at = DateTimeField(default=datetime.now)
+
+    def before_update(self, *args, **kwargs):
+        self.updated_at = datetime.now()
