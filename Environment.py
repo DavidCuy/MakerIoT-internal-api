@@ -45,3 +45,14 @@ SERVER_CA_KEY= "ca.key"
 SERVER_CSR = "server.csr"
 SERVER_PRIVATE_KEY = "server.key"
 SERVER_CERT = "server.crt"
+
+SQS_DRIVE               = env("SQS_DRIVER", "rabbitmq")
+
+RABBITMQ_USER           = env("RABBITMQ_USER", "root")
+RABBITMQ_PASS           = env("RABBITMQ_PASS", "example")
+RABBITMQ_HOST           = env("RABBITMQ_HOST", "localhost")
+RABBITMQ_PORT           = env("RABBITMQ_PORT", 5672)
+RABBITMQ_SSL            = env("RABBITMQT_SSL", False)
+RABBITMQ_URL            = f"{'amqps' if RABBITMQ_SSL else 'amqp'}://{RABBITMQ_USER}:{RABBITMQ_PASS}@{RABBITMQ_HOST}:{RABBITMQ_PORT}"
+
+RABBITMQ_DEFAULT_TOPIC   = env('RABBITMQ_DEFAULT_TOPIC', 'default-topic')

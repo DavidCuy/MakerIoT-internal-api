@@ -22,6 +22,8 @@ services:
       timeout: 10s
       retries: 7
       start_period: 50s
+    ports:
+      - 27017:27017
     env_file:
       - ./.services/mongo/.env
     volumes: 
@@ -64,6 +66,9 @@ services:
       retries: 3
     ports:
       - 9890:15672
+      - 8888:5672
+    expose:
+      - "8888"
     hostname: stats
     volumes:
       - ./.volumes/rabbitmq/data:/var/lib/rabbitmq/mnesia
@@ -76,5 +81,4 @@ services:
       - type: bind
         source: ./.volumes/rabbitmq/rabbitmq-defs.json
         target: /etc/rabbitmq/rabbitmq-defs.json
-  
   
