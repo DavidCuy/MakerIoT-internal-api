@@ -1,2 +1,4 @@
 from .MqttTopicService import MqttTopicService
 from .DeviceTypeService import DeviceTypeService
+from .CloudProviderService import CloudProviderService
+from .CloudConfigService import CloudConfigService
