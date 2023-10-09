@@ -24,7 +24,7 @@ def test_system_message():
         print("Can't send message to queue")
         traceback.print_exc()
     
-    return build_response(200, {"message": "OK"})
+    return build_response(202, {"message": "OK"})
 
 test_router.route('/system-message', methods=['POST']) (test_system_message)
 
