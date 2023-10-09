@@ -70,11 +70,14 @@ class BaseService:
     
     def insert_register(self, session: Session, input_data: dict):
         input_params = {}
+        kwargs_params = {}
         for ipKey in input_data.keys():
             if ipKey in self.get_display_members():
                 input_params[ipKey] = input_data[ipKey]
+            else:
+                kwargs_params[ipKey] = input_data[ipKey]
         obj = self.model(**input_params)
-        return cast(BaseModel, obj).save(session, **input_data)
+        return cast(BaseModel, obj).save(session, **kwargs_params)
     
     def update_register(self, session: Session, id: int, update_data: dict):
         obj = self.get_one(session, id)

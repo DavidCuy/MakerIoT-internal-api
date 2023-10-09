@@ -21,19 +21,20 @@ def upgrade():
     cloud_providers_table = op.create_table('CloudProviders',
     sa.Column('IdCloudProvider', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
+    sa.Column('key', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('IdCloudProvider')
     )
     op.create_table('CloudConfigs',
     sa.Column('IdCloudConfig', sa.Integer(), nullable=False),
     sa.Column('IdCloudProvider', sa.Integer(), nullable=False),
-    sa.Column('profile', sa.String(), nullable=False),
+    sa.Column('profile', sa.String(), nullable=True),
     sa.Column('enabled', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['IdCloudProvider'], ['CloudProviders.IdCloudProvider'], ),
     sa.PrimaryKeyConstraint('IdCloudConfig')
     )
 
     op.bulk_insert(cloud_providers_table, [
-        {'name': 'AWS (Amazon Web Services)'},
+        {'name': 'AWS (Amazon Web Services)', 'key': 'aws'},
     ])
     # ### end Alembic commands ###
 

@@ -4,6 +4,7 @@ services:
   mosquitto:
     image: eclipse-mosquitto:2.0.14
     hostname: mosquitto
+    container_name: mosquitto
     volumes:
       - ./.services/mosquitto:/mosquitto
     expose:

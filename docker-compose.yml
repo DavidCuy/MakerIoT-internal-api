@@ -22,7 +22,7 @@ services:
       - '.:/code'
       - './.services/server/conf:/code/conf'
       - './.volumes/db:/code/db'
-      - './.volumes/server/storage:/code/api/storage/local'
+      - '../.volumes/server/storage:/code/api/storage/local'
       - './.volumes/server/credentials/server:/code/api/storage/credentials/server'
       - './.volumes/server/credentials/clients:/code/api/storage/credentials/clients'
   mongo-local:
@@ -92,6 +92,7 @@ services:
   
   mosquitto:
     image: eclipse-mosquitto:2.0.14
+    container_name: mosquitto
     hostname: mosquitto
     volumes:
       - ./.services/mosquitto:/mosquitto
