@@ -41,6 +41,9 @@ class CloudConfig(BaseModel):
             "id_cloud_provider": ["required"],
         }
     
+    def before_save(self, sesion: Session, *args, **kwargs):
+        self.enabled = False
+    
     def after_save(self, sesion: Session, *args, **kwargs):
         self.profile = CloudIntegration(self.cloudProvider.key).initialize().save_config(**kwargs)
         try:
