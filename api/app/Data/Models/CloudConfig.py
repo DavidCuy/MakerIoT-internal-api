@@ -1,3 +1,4 @@
+import traceback
 from typing import Any, Dict, List
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
@@ -49,4 +50,9 @@ class CloudConfig(BaseModel):
             raise e
     
     def before_delete(self, sesion: Session, *args, **kwargs):
-        CloudIntegration(self.cloudProvider.key).initialize().delete_config(profile=self.profile)
+        try:
+            CloudIntegration(self.cloudProvider.key).initialize().delete_config(profile=self.profile)
+        except Exception as e:
+            print(f"No se pudo eliminar el archivo de configuración: {e}")
+            traceback.print_exc()
+
